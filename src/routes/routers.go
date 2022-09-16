@@ -16,22 +16,22 @@ func Router(tasknum int) *fiber.App {
 	switch tasknum {
 	case 1:
 		writest()
-		app.Put("/file/create", createFile)
+		app.Post("/file/create", createFile)
 	case 2:
 		// GET /dictionary.txt
-		app.Post("/", func(c *fiber.Ctx) error {
-			file, err := c.FormFile("document")
+		//app.PUT("/", func(c *fiber.Ctx) error {
+		// 	file, err := c.FormFile("document")
 
-			if err == nil {
-				c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
-			}
-			return c.SendString("파일 읽기 종료")
-		})
-		//app.Post("/file/update", writeFile)
+		// 	if err == nil {
+		// 		c.SaveFile(file, fmt.Sprintf("./%s", file.Filename))
+		// 	}
+		// 	return c.SendString("파일 읽기 종료")
+		// })
+		app.Put("/file/update", writeFile)
 	case 3:
 		app.Get("/file/Read", readFile)
 	case 4:
-		app.Post("/file/delete", deleteFile)
+		app.Delete("/file/delete", deleteFile)
 	default:
 		fmt.Println("잘못 입력하였습니다.")
 	}
@@ -104,13 +104,9 @@ func createFile(c *fiber.Ctx) error {
 	return c.SendString("파일 생성 종료")
 }
 
-// func writeFile(c *fiber.Ctx) error {
-
-// 	c.Status(200).JSON(&fiber.Map{
-// 		doc := {{"name"}: "lucas",}
-// 	})
-// 	doc, _ := json.Marshal(data)
-// }
+func writeFile(c *fiber.Ctx) error {
+	return c.SendString("파일 수정 종료")
+}
 
 func isError(err error) bool {
 	if err != nil {
